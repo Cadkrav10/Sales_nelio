@@ -1,0 +1,65 @@
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+    build:
+    runs-on: ubuntu-latest
+
+    steps:
+      
+      - name: Run a one-line script
+        run: echo Hello, world!
+        
+        
+    deploy-dev:
+      runs-on: ubuntu-latest
+      environment:
+        name : dev
+        url: 'julioarruda.com'
+      needs: build
+
+    steps:
+      
+      - name: Run a one-line script
+        run: echo Deploy Dev
+
+
+
+deploy-hmg:
+      runs-on: ubuntu-latest
+      environment:
+        name : hmg
+        url: 'julioarruda.com'
+      needs: deploy-dev
+
+    steps:
+      
+      - name: Run a one-line script
+        run: echo Deploy hmg
+        
+        
+        
+deploy-prd:
+      runs-on: ubuntu-latest
+      environment:
+        name : prd
+        url: 'julioarruda.com'
+      needs: deploy-hmg
+
+    steps:
+      
+      - name: Run a one-line script
+        run: echo Deploy PRD
+
